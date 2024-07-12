@@ -19,10 +19,11 @@ class StoreTodoRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules()
     {
         return [
-            //
+            'title' => 'required|string|max:255',
+            'status' => 'required|boolean'
         ];
     }
 }

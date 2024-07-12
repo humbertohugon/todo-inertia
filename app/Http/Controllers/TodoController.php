@@ -9,58 +9,25 @@ use App\Models\Todo;
 class TodoController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreTodoRequest $request)
     {
-        //
+        $validatedData = $request->validated();
+
+        $todo = new Todo();
+        $todo->title = $validatedData['title'];
+        $todo->status = $validatedData['status'];
+        $todo->column_type = $validatedData['column_type']; // Tipo de coluna (todo ou done)
+
+        // Definir o order como o próximo número sequencial dentro do tipo de coluna
+        $todo->order = Todo::where('column_type', $validatedData['column_type'])->count() + 1;
+
+        $todo->save();
+
+        return response()->json($todo, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Todo $todo)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Todo $todo)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateTodoRequest $request, Todo $todo)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Todo $todo)
-    {
-        //
-    }
+    // Outros métodos do controlador não foram alterados para a nova coluna 'order'
 }

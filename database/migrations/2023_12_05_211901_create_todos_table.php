@@ -16,7 +16,11 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->boolean('status')->default(TodoStatus::TODO->value);
+            $table->string('column_type'); // Tipo de coluna (todo ou done)
+            $table->integer('order'); // Ordem dentro da coluna
             $table->timestamps();
+
+            $table->unique(['column_type', 'order']); // Garantir unicidade de order por tipo de coluna
         });
     }
 
